@@ -1,0 +1,126 @@
+<?php
+namespace Opencart\Catalog\Controller\Common;
+/**
+ * Class Footer
+ *
+ * Can be called from $this->load->controller('common/footer');
+ *
+ * @package Opencart\Catalog\Controller\Common
+ */
+class Footer extends \Opencart\System\Engine\Controller {
+	/**
+	 * Index
+	 *
+	 * @return string
+	 */
+	public function index(): string {
+		$this->load->language('common/footer');
+
+		// Article
+		$this->load->model('cms/article');
+
+		$article_total = $this->model_cms_article->getTotalArticles();
+
+		if ($article_total) {
+			$data['blog'] = $this->url->link('cms/blog', 'language=' . $this->config->get('config_language'));
+		} else {
+			$data['blog'] = '';
+		}
+
+		// Information
+		$data['informations'] = [];
+
+		$this->load->model('catalog/information');
+
+		$results = $this->model_catalog_information->getInformations();
+
+		foreach ($results as $result) {
+			// KVKK Aydınlatma Metni, "Destek" sütununda ayrı link olarak gösterilir — listeyi kirletmesin
+			if ((int)$result['information_id'] === 5) {
+				continue;
+			}
+
+			$data['informations'][] = ['href' => $this->url->link('information/information', 'language=' . $this->config->get('config_language') . '&information_id=' . $result['information_id'])] + $result;
+		}
+
+		$data['contact'] = $this->url->link('information/contact', 'language=' . $this->config->get('config_language'));
+		$data['return'] = $this->url->link('account/returns.add', 'language=' . $this->config->get('config_language'));
+
+		// Teslimat, iade ve SSS hızlı bağlantıları
+		$data['delivery'] = $this->url->link('information/information', 'language=' . $this->config->get('config_language') . '&information_id=4');
+		$data['terms'] = $this->url->link('information/information', 'language=' . $this->config->get('config_language') . '&information_id=2');
+		$data['faq'] = $this->url->link('common/home', 'language=' . $this->config->get('config_language')) . '#sss';
+
+		// KVKK Aydınlatma Metni (bilgi sayfası)
+		$data['kvkk'] = '';
+
+		$kvkk_info = $this->model_catalog_information->getInformation(5);
+
+		if ($kvkk_info) {
+			$data['kvkk'] = $this->url->link('information/information', 'language=' . $this->config->get('config_language') . '&information_id=' . $kvkk_info['information_id']);
+		}
+
+		// Üst menüdeki kategoriler (footer'da "Kategoriler" sütunu)
+		$this->load->model('catalog/category');
+
+		$data['categories'] = [];
+
+		foreach ($this->model_catalog_category->getCategories(0) as $category) {
+			$data['categories'][] = [
+				'name' => $category['name'],
+				'href' => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $category['category_id'])
+			];
+
+			if (count($data['categories']) >= 12) {
+				break;
+			}
+		}
+
+		$data['sitemap'] = $this->url->link('information/sitemap', 'language=' . $this->config->get('config_language'));
+		$data['manufacturer'] = $this->url->link('product/manufacturer', 'language=' . $this->config->get('config_language'));
+
+		if ($this->config->get('config_affiliate_status')) {
+			$data['affiliate'] = $this->url->link('account/affiliate', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
+		} else {
+			$data['affiliate'] = '';
+		}
+
+		$data['special'] = $this->url->link('product/special', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
+		$data['account'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
+		$data['order'] = $this->url->link('account/order', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
+		$data['wishlist'] = $this->url->link('account/wishlist', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
+		$data['newsletter'] = $this->url->link('account/newsletter', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
+
+		// E-bülten (footer) kaydı
+		$data['subscribe'] = $this->url->link('common/subscribe.save', 'language=' . $this->config->get('config_language') . '&newsletter_token=' . ($this->session->data['newsletter_token'] = oc_token(32)));
+		$data['store_name'] = $this->config->get('config_name');
+		$data['year'] = date('Y');
+
+		$data['powered'] = sprintf($this->language->get('text_powered'), $this->config->get('config_name'), date('Y', time()));
+
+		// Who's Online
+		if ($this->config->get('config_customer_online')) {
+			$this->load->model('tool/online');
+
+			if (isset($this->request->server['HTTP_HOST']) && isset($this->request->server['REQUEST_URI'])) {
+				$url = (!empty($this->request->server['HTTPS']) ? 'https://' : 'http://') . $this->request->server['HTTP_HOST'] . $this->request->server['REQUEST_URI'];
+			} else {
+				$url = '';
+			}
+
+			if (isset($this->request->server['HTTP_REFERER'])) {
+				$referer = $this->request->server['HTTP_REFERER'];
+			} else {
+				$referer = '';
+			}
+
+			$this->model_tool_online->addOnline(oc_get_ip(), $this->customer->getId(), $url, $referer);
+		}
+
+		$data['bootstrap'] = 'catalog/view/javascript/bootstrap/js/bootstrap.bundle.min.js';
+		$data['scripts'] = $this->document->getScripts('footer');
+		$data['cookie'] = $this->load->controller('common/cookie');
+
+		return $this->load->view('common/footer', $data);
+	}
+}

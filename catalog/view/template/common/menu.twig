@@ -1,0 +1,41 @@
+{% if categories or home or contact %}
+  <ul class="main-menu" role="menubar">
+    <li class="main-menu-item" role="none">
+      <a href="{{ home }}" class="main-menu-link" role="menuitem">Anasayfa</a>
+    </li>
+
+    <li class="main-menu-item main-menu-item--has-children" role="none">
+      <a href="{{ products_href }}" class="main-menu-link main-menu-all" role="menuitem" aria-haspopup="true" aria-expanded="false">
+        Ürünlerimiz
+        <svg class="main-menu-caret" width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6.75 1.5L3.75 4.5L0.75 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <div class="main-menu-panel main-menu-panel--all" role="region" aria-label="Ürünlerimiz">
+        <div class="main-menu-panel-inner">
+          <span class="main-menu-panel-title">Ürünlerimiz</span>
+          <ul class="main-menu-links main-menu-links--all">
+            {% for category in categories %}
+              <li>
+                <a href="{{ category.href }}" class="main-menu-sublink main-menu-sublink--parent">{{ category.name }}</a>
+                {% if category.children %}
+                  <ul class="list-unstyled">
+                    {% for child in category.children|slice(0, 6) %}
+                      <li><a href="{{ child.href }}" class="main-menu-sublink">{{ child.name }}</a></li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </li>
+
+    {% if blog %}
+      <li class="main-menu-item main-menu-item--blog" role="none"><a href="{{ blog }}" class="main-menu-link" role="menuitem">Blog</a></li>
+    {% endif %}
+
+    <li class="main-menu-item" role="none">
+      <a href="{{ contact }}" class="main-menu-link" role="menuitem">İletişim</a>
+    </li>
+  </ul>
+{% endif %}

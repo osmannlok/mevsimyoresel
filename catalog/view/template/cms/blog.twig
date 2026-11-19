@@ -1,0 +1,99 @@
+{{ header }}
+<div id="product-category" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">
+    {{ column_left }}
+    <div id="content" class="col">
+      {{ content_top }}
+      <h1>{{ heading_title }}</h1>
+      {% if image %}
+        <img src="{{ image }}" alt="{{ heading_title }}" title="{{ heading_title }}" class="img-thumbnail mb-3"/>
+      {% endif %}
+      {% if description %}
+        <div class="mb-3">{{ description }}</div>
+      {% endif %}
+      <hr/>
+      <div class="blog-toolbar mb-3">
+        <div class="input-group dropdown blog-toolbar-search">
+          <input type="text" name="search" value="{{ search }}" placeholder="{{ text_refine }}" id="input-search" class="form-control" aria-label="{{ text_refine }}"/>
+          {% if topics %}
+            <select name="topic_id" id="input-topic" class="form-select" onchange="">
+              <option value="">{{ text_all }}</option>
+              {% for topic in topics %}
+                <option value="{{ topic.topic_id }}"{% if topic.topic_id == topic_id %} selected{% endif %}>{{ topic.name }}</option>
+              {% endfor %}
+            </select>
+          {% endif %}
+          <button id="button-search" class="btn btn-primary">{{ button_search }}</button>
+        </div>
+        <div class="input-group blog-toolbar-sort">
+          <label for="input-sort" class="input-group-text">{{ text_sort }}</label> <select id="input-sort" class="form-select" onchange="location = this.value;">
+            {% for sorts in sorts %}
+              <option value="{{ sorts.href }}"{% if sorts.value == '%s-%s'|format(sort, order) %} selected{% endif %}>{{ sorts.text }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      {% if articles %}
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 blog-article-grid">
+          {% for article in articles %}
+            <div class="col mb-4">
+              <div class="product-thumb blog-article-card">
+                {% if article.image %}
+                  <div class="image">
+                    <a href="{{ article.href }}"><img src="{{ article.image }}" alt="{{ article.name }}" title="{{ article.name }}" class="img-fluid"/></a>
+                  </div>
+                {% endif %}
+                <div class="content">
+                  <div class="description">
+                    <h4><a href="{{ article.href }}">{{ article.name }}</a></h4>
+                    <p>{{ article.description }}</p>
+                  </div>
+                  <div class="blog-card-action"><a href="{{ article.href }}" class="btn btn-primary">{{ button_continue }}</a></div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="row">
+          <div class="col-sm-6 text-start">{{ pagination }}</div>
+          <div class="col-sm-6 text-end">{{ results }}</div>
+        </div>
+      {% else %}
+        <p class="text-center">{{ text_no_results }}</p>
+      {% endif %}
+      {{ content_bottom }}
+    </div>
+    {{ column_right }}
+  </div>
+</div>
+<script type="text/javascript"><!--
+$('#button-search').bind('click', function() {
+    url = 'index.php?route=cms/blog&language={{ language }}';
+
+    var search = $('#input-search').val();
+
+    if (search) {
+        url += '&search=' + encodeURIComponent(search);
+    }
+
+    var topic_id = $('#input-topic').prop('value');
+
+    if (topic_id > 0) {
+        url += '&topic_id=' + topic_id;
+    }
+
+    location = url;
+});
+
+$('#input-search').bind('keydown', function(e) {
+    if (e.keyCode == 13) {
+        $('#button-search').trigger('click');
+    }
+});
+//--></script>
+{{ footer }}

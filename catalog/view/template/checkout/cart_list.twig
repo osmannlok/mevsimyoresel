@@ -1,0 +1,94 @@
+{% if products %}
+  {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> {{ error_warning }} <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+  {% endif %}
+  {% if error_stock %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> {{ error_stock }} <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+  {% endif %}
+  {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> {{ success }} <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+  {% endif %}
+  {% if attention %}
+    <div class="alert alert-info"><i class="fa-solid fa-circle-info"></i> {{ attention }} <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+  {% endif %}
+
+  <div class="cart-head">
+    <h1 class="cart-title">{{ heading_title }} <span class="cart-count-badge" title="{{ products|length }} ürün">{{ products|length }}</span></h1>
+  </div>
+
+  <div class="cart-layout">
+    <div class="cart-items" id="output-cart">
+      {% for product in products %}
+        <div class="cart-item">
+          <a class="cart-item-media" href="{{ product.href }}" aria-label="{{ product.name }}">
+            {% if product.thumb %}<img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" loading="lazy"/>{% endif %}
+          </a>
+
+          <div class="cart-item-body">
+            <a class="cart-item-name" href="{{ product.href }}">{{ product.name }}</a>
+            {% if not product.stock %}<span class="cart-stock-warn" title="Stokta yetersiz">***</span>{% endif %}
+            <div class="cart-item-meta">
+              {% if product.model %}<span>{{ text_model }}: {{ product.model }}</span>{% endif %}
+              {% for option in product.option %}<span>{{ option.name }}: {{ option.value }}</span>{% endfor %}
+              {% if product.subscription %}<span>{{ text_subscription }}: {{ product.subscription }}</span>{% endif %}
+              {% if product.reward %}<span>{{ text_points }}: {{ product.reward }}</span>{% endif %}
+            </div>
+
+            <form method="post" data-oc-target="#shopping-cart" class="cart-qty-form">
+              <div class="cart-qty" role="group" aria-label="{{ column_quantity }}">
+                <button type="submit" formaction="{{ edit }}" data-step="-1" class="cart-qty-btn" aria-label="Azalt"><i class="fa-solid fa-minus" aria-hidden="true"></i></button>
+                <input type="number" name="quantity" value="{{ product.quantity }}" min="1" inputmode="numeric" class="cart-qty-input{% if product.minimum %} is-invalid{% endif %}" aria-label="{{ column_quantity }}"/>
+                <button type="submit" formaction="{{ edit }}" data-step="1" class="cart-qty-btn" aria-label="Arttır"><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
+              </div>
+              <input type="hidden" name="key" value="{{ product.cart_id }}"/>
+              {% if product.minimum %}
+                <small class="cart-qty-error">{{ product.minimum }}</small>
+              {% endif %}
+            </form>
+          </div>
+
+          <div class="cart-item-right">
+            <div class="cart-item-unit">{{ column_price }}: {{ product.price }}</div>
+            <div class="cart-item-total">{{ product.total }}</div>
+            <a href="{{ product.remove }}" data-bs-toggle="tooltip" title="{{ button_remove }}" class="cart-remove btn-danger" aria-label="{{ button_remove }}: {{ product.name }}"><i class="fa-solid fa-trash-can" aria-hidden="true"></i><span>{{ button_remove }}</span></a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <aside class="cart-summary" aria-label="Sipariş özeti">
+      <h2 class="cart-summary-title"><i class="fa-solid fa-receipt" aria-hidden="true"></i> Sipariş Özeti</h2>
+      <div class="cart-summary-rows">
+        {% for total in totals %}
+          <div class="cart-summary-row{% if total.code == 'total' %} cart-summary-row--total{% endif %}">
+            <span>{{ total.title }}</span>
+            <span>{{ total.text }}</span>
+          </div>
+        {% endfor %}
+      </div>
+      <p class="cart-summary-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Kargo ücreti ödeme adımında teslimat adresinize göre hesaplanır.</span></p>
+      <a href="{{ checkout }}" class="btn btn-primary cart-cta"><i class="fa-solid fa-lock" aria-hidden="true"></i> {{ button_checkout }}</a>
+      <a href="{{ continue }}" class="cart-continue"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> {{ button_shopping }}</a>
+      <div class="cart-secure"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> 256-bit SSL ile güvenli ödeme</div>
+    </aside>
+  </div>
+
+  {% if modules %}
+    <div class="cart-modules">
+      <h2>{{ text_next }}</h2>
+      <p>{{ text_next_choice }}</p>
+      <div id="accordion" class="accordion">
+        {% for module in modules %}
+          {{ module }}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+{% else %}
+  <div class="cart-empty">
+    <div class="cart-empty-icon" aria-hidden="true"><i class="fa-solid fa-basket-shopping"></i></div>
+    <h1>{{ heading_title }}</h1>
+    <p>{{ text_no_results }}</p>
+    <a href="{{ continue }}" class="btn btn-primary btn-lg cart-empty-cta"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i> Alışverişe Başla</a>
+  </div>
+{% endif %}

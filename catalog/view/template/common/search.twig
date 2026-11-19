@@ -1,0 +1,8 @@
+<form action="{{ action }}" method="post" class="header-search-field" role="search">
+  <i class="fa-solid fa-magnifying-glass header-search-icon" aria-hidden="true"></i>
+  <label class="visually-hidden" for="input-header-search">{{ text_search }}</label>
+  <input type="text" name="search" value="{{ search }}" placeholder="{{ text_search }}" id="input-header-search" class="header-search-input" autocomplete="off"/>
+  <button type="submit" class="header-search-submit" aria-label="{{ button_search|default('Ara') }}">
+    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+  </button>
+</form>

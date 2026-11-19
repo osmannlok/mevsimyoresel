@@ -1,0 +1,16 @@
+{% if error %}
+  <div class="alert alert-danger">{{ error }}</div>
+{% elseif text_not_configured %}
+  <div class="alert alert-warning">{{ text_not_configured }}</div>
+{% elseif paid %}
+  <div class="alert alert-info">{{ text_order_paid }}</div>
+{% elseif iframe_token %}
+  <p class="text-muted small"><i class="fa-solid fa-lock"></i> {{ text_iframe }}</p>
+  <script src="https://www.paytr.com/js/iframeResizer.min.js"></script>
+  <iframe src="https://www.paytr.com/odeme/guvenli/{{ iframe_token }}" id="paytriframe" frameborder="0" scrolling="no" style="width: 100%; min-height: 480px; border: 0"></iframe>
+  <script>
+    if (window.iFrameResize) {
+      iFrameResize({ heightCalculationMethod: 'bodyScroll' }, '#paytriframe');
+    }
+  </script>
+{% endif %}

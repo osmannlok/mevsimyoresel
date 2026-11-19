@@ -1,0 +1,15 @@
+{% if languages|length > 1 %}
+  <form id="form-language" action="{{ action }}" method="post" data-oc-toggle="ajax" class="dropdown header-flag">
+    <span role="button" data-bs-toggle="dropdown" class="dropdown-toggle" aria-label="{{ text_language|default('Dil') }}" aria-expanded="false">
+      <img src="{{ image }}" alt="{{ name }}" title="{{ name }}"/>
+      <svg class="flag-caret" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <ul class="dropdown-menu dropdown-menu-end">
+      {% for language in languages %}
+        <li><span role="button" data-code="{{ language.code }}" class="dropdown-item language-item{% if language.code == code %} active{% endif %}"><img src="{{ language.image }}" alt="{{ language.name }}" title="{{ language.name }}"/> {{ language.name }}</span></li>
+      {% endfor %}
+    </ul>
+    <input type="hidden" name="code" value=""/>
+    <input type="hidden" name="redirect" value="{{ redirect }}"/>
+  </form>
+{% endif %}

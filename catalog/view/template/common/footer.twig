@@ -1,0 +1,189 @@
+</main>
+<footer class="footer-gt">
+  <div class="container">
+
+    <div class="footer-trust">
+      {% include 'catalog/view/template/common/trust.twig' %}
+    </div>
+
+    <div class="footer-gt-top">
+
+      {# ——— Yardım & Destek ——— #}
+      <div class="footer-gt-help">
+        <h5 class="footer-gt-heading">{{ text_help }}</h5>
+        <div class="footer-gt-groups">
+          <div class="footer-gt-group">
+            <h6 class="footer-gt-subheading">{{ text_support }}</h6>
+            <ul class="list-unstyled footer-gt-list">
+              <li><a href="{{ contact }}">{{ text_contact }}</a></li>
+              <li><a href="{{ return }}">{{ text_return }}</a></li>
+              {% if kvkk %}<li><a href="{{ kvkk }}">{{ text_kvkk }}</a></li>{% endif %}
+              <li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+              {% if blog %}<li><a href="{{ blog }}">{{ text_blog }}</a></li>{% endif %}
+            </ul>
+          </div>
+          <div class="footer-gt-group">
+            <h6 class="footer-gt-subheading">{{ text_corporate }}</h6>
+            <ul class="list-unstyled footer-gt-list">
+              {% for information in informations %}
+                <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% if categories %}
+          <div class="footer-gt-group">
+            <h6 class="footer-gt-subheading">{{ text_categories }}</h6>
+            <ul class="list-unstyled footer-gt-list">
+              {% for category in categories %}
+                <li><a href="{{ category.href }}">{{ category.name }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+          <div class="footer-gt-group">
+            <h6 class="footer-gt-subheading">{{ text_shopping }}</h6>
+            <ul class="list-unstyled footer-gt-list">
+              <li><a href="{{ special }}">{{ text_special }}</a></li>
+              <li><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+              {% if affiliate %}<li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>{% endif %}
+            </ul>
+          </div>
+          <div class="footer-gt-group">
+            <h6 class="footer-gt-subheading">{{ text_account }}</h6>
+            <ul class="list-unstyled footer-gt-list">
+              <li><a href="{{ account }}">{{ text_account }}</a></li>
+              <li><a href="{{ order }}">{{ text_order }}</a></li>
+              <li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
+              <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {# ——— Bize Ulaşın ——— #}
+      <div class="footer-gt-contact">
+        <h5 class="footer-gt-heading">Bize Ulaşın</h5>
+        <a class="footer-gt-phone" href="tel:+905467446722">0546 744 67 22</a>
+        <p class="footer-gt-contact-note">WhatsApp sipariş ve destek hattı</p>
+        <ul class="footer-gt-socials list-unstyled">
+          <li><a href="https://wa.me/905467446722?text=Merhaba%2C%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp: 0546 744 67 22"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></li>
+          <li><a href="tel:+905467446722" aria-label="Telefon" title="0546 744 67 22"><i class="fa-solid fa-phone" aria-hidden="true"></i></a></li>
+        </ul>
+        <ul class="footer-gt-quick list-unstyled">
+          <li><a href="{{ delivery }}">Teslimat ve Kargo</a></li>
+          <li><a href="{{ terms }}">Şartlar ve Koşullar</a></li>
+          <li><a href="{{ faq }}">Sıkça Sorulan Sorular</a></li>
+        </ul>
+        <div class="footer-gt-paybox">
+          <strong>Ödeme Seçenekleri</strong>
+          <span>Havale/EFT (IBAN) ile ödeme</span>
+          <span>Kapıda nakit ödeme</span>
+        </div>
+      </div>
+
+      {# ——— E-bülten ——— #}
+      <div class="footer-gt-newsletter">
+        <h5 class="footer-gt-heading">{{ text_newsletter_title }}</h5>
+        <p class="footer-gt-newsletter-desc">{{ text_newsletter_desc }}</p>
+        <form id="form-newsletter" class="footer-gt-form" action="{{ subscribe }}" method="post">
+          <label class="visually-hidden" for="newsletter-email">{{ text_newsletter_email }}</label>
+          <input type="email" name="email" id="newsletter-email" class="form-control footer-gt-input" placeholder="{{ text_newsletter_email }}" autocomplete="email" required>
+          <div class="footer-gt-consent">
+            <input type="checkbox" name="consent" id="newsletter-consent" value="1" required>
+            <label for="newsletter-consent">{{ text_newsletter_consent }}</label>
+          </div>
+          <button type="submit" class="footer-gt-button">{{ text_newsletter_button }}</button>
+        </form>
+        <div id="newsletter-result" class="footer-gt-result" role="status" aria-live="polite"></div>
+      </div>
+
+    </div>
+
+    <div class="footer-gt-bottom">
+      {# ——— Firma legal kimliği (ETCC / Mesafeli Sözleşmeler Yönetmeliği) ———
+         Yayınlamadan önce [KÖŞELİ PARANTEZ] yer tutucularını doldurun. #}
+      <div class="footer-gt-company">
+        <p><strong>Mevsim Yöresel</strong> · </p>
+       
+        <p><a href="tel:+905467446722">0546 744 67 22</a> (WhatsApp) · <a href="mailto:mevsim.yoresel.market@gmail.com">mevsim.yoresel.market@gmail.com</a></p>
+        <ul class="list-unstyled footer-gt-company-links">
+          <li><a href="https://mevsimyoresel.com.tr/index.php?route=information/information&amp;information_id=10">Firma Bilgileri</a></li>
+          <li><a href="https://mevsimyoresel.com.tr/index.php?route=information/information&amp;information_id=8">Mesafeli Satış Sözleşmesi</a></li>
+          <li><a href="https://mevsimyoresel.com.tr/index.php?route=information/information&amp;information_id=9">Ön Bilgilendirme Formu</a></li>
+        </ul>
+      </div>
+      <p class="footer-gt-copyright">&copy; {{ year }} {{ store_name }}. {{ text_all_rights }} <br>Bu Website Osman LÖK tarafından kodlanmıştır. osman.wdeveloper@gmail.com</p>
+      <div class="footer-gt-paywrap">
+        <p class="footer-gt-payment-note"><i class="fa-solid fa-lock" aria-hidden="true"></i> Havale/EFT (IBAN) · Kapıda nakit — PayTR online ödeme yakında</p>
+        <ul class="footer-gt-payments list-unstyled" aria-label="{{ text_payments }}">
+        {# PayTR devreye alınınca Visa/Mastercard/Troy kart logolarını ve "3D Secure" notunu geri ekleyin #}
+        </ul>
+      </div>
+    </div>
+
+    {#
+    OpenCart is open source software and you are free to remove the powered by OpenCart if you want, but its generally accepted practise to make a small donation.
+    Please donate via PayPal to donate@opencart.com
+    //-#}
+  </div>
+</footer>
+</div>
+{{ cookie }}
+<script src="{{ bootstrap }}" type="text/javascript"></script>
+{% for script in scripts %}
+  <script src="{{ script.href }}" type="text/javascript"></script>
+{% endfor %}
+<script>
+  (function () {
+    var form = document.getElementById('form-newsletter');
+
+    if (!form) {
+      return;
+    }
+
+    var result = document.getElementById('newsletter-result');
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      result.textContent = '';
+      result.className = 'footer-gt-result';
+
+      fetch(form.getAttribute('action'), {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      })
+        .then(function (response) { return response.json(); })
+        .then(function (json) {
+          if (json && json.success) {
+            result.textContent = json.success;
+            result.classList.add('is-success');
+            form.reset();
+          } else {
+            var message = '';
+
+            if (json && json.error) {
+              if (json.error.warning) {
+                message = json.error.warning;
+              } else {
+                message = Object.keys(json.error).map(function (key) { return json.error[key]; }).join(' ');
+              }
+            }
+
+            result.textContent = message || 'Bir hata oluştu. Lütfen tekrar deneyin.';
+            result.classList.add('is-error');
+          }
+        })
+        .catch(function () {
+          result.textContent = 'Bir hata oluştu. Lütfen tekrar deneyin.';
+          result.classList.add('is-error');
+        });
+    });
+  })();
+</script>
+<a href="https://wa.me/905467446722?text=Merhaba%2C%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="whatsapp-float" aria-label="WhatsApp ile iletişime geçin" title="WhatsApp ile iletişime geçin">
+  <i class="fab fa-whatsapp" aria-hidden="true"></i>
+  <span class="whatsapp-float-ring" aria-hidden="true"></span>
+</a>
+</body></html>

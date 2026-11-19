@@ -1,0 +1,24 @@
+user-agent: *
+Disallow: /*?page=$
+Disallow: /*&page=$
+Disallow: /*?sort=
+Disallow: /*&sort=
+Disallow: /*?order=
+Disallow: /*&order=
+Disallow: /*?limit=
+Disallow: /*&limit=
+Disallow: /*?filter_name=
+Disallow: /*&filter_name=
+Disallow: /*?filter_sub_category=
+Disallow: /*&filter_sub_category=
+Disallow: /*?filter_description=
+Disallow: /*&filter_description=
+Disallow: /*?filter_group=
+Disallow: /*&filter_group=
+
+# Sitemap kuruldu (statik sitemap.xml, modül gelince güncellenecek)
+Sitemap: https://mevsimyoresel.com.tr/sitemap.xml
+
+# Admin ve yinelenen route URL’leri engellenir
+# (admin klasör yolu gizli kalmalı; buraya yol yazmak yolu ifşa eder)
+Disallow: /index.php?route

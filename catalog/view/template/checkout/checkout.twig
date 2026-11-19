@@ -1,0 +1,46 @@
+{{ header }}
+<div id="checkout-checkout" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}
+    <div id="content" class="col">{{ content_top }}
+      <h1>{{ heading_title }}</h1>
+      <div class="checkout-trust">
+        {% include 'catalog/view/template/common/trust.twig' %}
+        <p class="page-assurance"><i class="fa-solid fa-lock" aria-hidden="true"></i> Havale/EFT (IBAN) ile veya kapıda nakit ödeme. 14 gün cayma hakkı için <a href="{{ link_terms }}">Şartlar ve Koşullar</a> sayfamıza bakın.</p>
+      </div>
+      <div class="row">
+        {% if register or payment_address or shipping_address %}
+          <div class="col-md-7 mb-3">
+            {% if register %}
+              <div id="checkout-register">{{ register }}</div>
+            {% endif %}
+            {% if payment_address %}
+              <div id="checkout-payment-address">{{ payment_address }}</div>
+            {% endif %}
+            {% if shipping_address %}
+              <div id="checkout-shipping-address">{{ shipping_address }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
+        <div class="col">
+          <div id="checkout-payment-method" class="mb-4">{{ payment_method }}</div>
+          <div id="checkout-confirm">{{ confirm }}</div>
+        </div>
+      </div>
+    </div>
+    {{ content_bottom }}
+  </div>
+  {{ column_right }}
+</div>
+
+<script type="text/javascript"><!--
+$(document).ready(function() {
+    $('#input-comment').val('');
+});
+//--></script>
+
+{{ footer }}
